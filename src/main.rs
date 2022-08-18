@@ -7,25 +7,26 @@ use std::env; // For getting commandline arguments and reading Environment
 use std::error::Error;
 use std::fs; // For reading files
 use std::process::Command; // For exit with a code.
+use colored::Colorize;
 
 fn main() {
     let os_name = match get_os_name() {
         Ok(x) => x,
         Err(_) => String::from("Unknown"),
     };
-    println!("OS : {}", os_name);
+    println!("{} : {}", format!("OS").red().bold().italic(), os_name);
 
     let kernel = get_kernel_version();
-    println!("KERNEL : {}", kernel);
+    println!("{} : {}", format!("KERNEL").magenta().bold().italic(), kernel);
 
     let shell_name = get_shell_name();
-    println!("SHELL : {}", shell_name);
+    println!("{} : {}", format!("SHELL").yellow().bold().italic(),shell_name);
 
     let session = get_session_name();
-    println!("SESSION : {}", session);
+    println!("{} : {}", format!("SESSION").blue().bold().italic(),session);
 
     let uptime = get_sys_uptime();
-    println!("UPTIME : {}", uptime);
+    println!("{} : {}", format!("UPTIME").cyan().bold().italic(), uptime);
 }
 
 fn get_sys_uptime() -> String {
