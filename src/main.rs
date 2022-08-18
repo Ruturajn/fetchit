@@ -14,19 +14,19 @@ fn main() {
         Ok(x) => x,
         Err(_) => String::from("Unknown"),
     };
-    println!("{} : {}", format!("OS").red().bold().italic(), os_name);
+    println!("{}      : {}", format!("OS").red().bold().italic(), os_name);
 
     let kernel = get_kernel_version();
-    println!("{} : {}", format!("KERNEL").magenta().bold().italic(), kernel);
+    println!("{}  : {}", format!("KERNEL").magenta().bold().italic(), kernel);
 
     let shell_name = get_shell_name();
-    println!("{} : {}", format!("SHELL").yellow().bold().italic(),shell_name);
+    println!("{}   : {}", format!("SHELL").yellow().bold().italic(),shell_name);
 
     let session = get_session_name();
     println!("{} : {}", format!("SESSION").blue().bold().italic(),session);
 
     let uptime = get_sys_uptime();
-    println!("{} : {}", format!("UPTIME").cyan().bold().italic(), uptime);
+    println!("{}  : {}", format!("UPTIME").cyan().bold().italic(), uptime);
 }
 
 fn get_sys_uptime() -> String {
