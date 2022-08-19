@@ -52,6 +52,7 @@ fn main() {
     // printed, and this text contains 12 characters. The `9` and `5` above
     // are chosen based on formatting.
 
+    println!("");
     println!("    ______________        ╭{}╮", format!("─").repeat(final_length));
     println!("   |  __________  |       │ {}       : {}{}{}", format!("OS").red().bold().italic(), os_name, format!(" ").repeat(final_length - 12 - string_length_vector[0]), format!("│"));
     println!("   | :          : |       │ {}   : {}{}{}", format!("KERNEL").magenta().bold().italic(), kernel, format!(" ").repeat(final_length - 12 - string_length_vector[1]), format!("│"));
@@ -61,4 +62,5 @@ fn main() {
     println!("   \\   =========  \\       │ {} : {}{}{}", format!("PACKAGES").green().bold().italic(), total_packages, format!(" ").repeat(final_length - 12 - string_length_vector[5]), format!("│"));
     println!("    \\ ==== ____ == \\      ╰{}╯", format!("─").repeat(final_length));
     println!("     \\_____\\___\\____\\   ");
+    println!("");
 }
