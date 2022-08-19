@@ -136,6 +136,6 @@ pub fn get_sys_uptime() -> String {
     };
 
     let up_time = up_time.replace("\n", ""); // Remove any newline character
-    
+
     up_time
 }

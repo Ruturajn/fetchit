@@ -13,7 +13,11 @@ fn main() {
         Ok(x) => x,
         Err(_) => String::from("Unknown"),
     };
-    println!("{}       : {}", format!("OS").red().bold().italic(), os_name);
+    println!(
+        "{}       : {}",
+        format!("OS").red().bold().italic(),
+        os_name
+    );
 
     let kernel = fetchit::get_kernel_version();
     println!(
@@ -37,8 +41,12 @@ fn main() {
     );
 
     let uptime = fetchit::get_sys_uptime();
-    println!("{}   : {}", format!("UPTIME").cyan().bold().italic(), uptime);
-    
+    println!(
+        "{}   : {}",
+        format!("UPTIME").cyan().bold().italic(),
+        uptime
+    );
+
     let total_packages = packages::get_num_packages();
     println!(
         "{} : {}",
