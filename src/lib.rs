@@ -1,5 +1,5 @@
 // @Author: Ruturajn <nanotiruturaj@gmail.com>
-// @Date  : 18th August, 2022
+// @Date  : 19th August, 2022
 // @Brief : This is the lib.rs file for `fetchit`
 
 use std::env; // For getting commandline arguments and reading Environment

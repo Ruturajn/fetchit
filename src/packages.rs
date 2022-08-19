@@ -1,5 +1,5 @@
 // @Author: Ruturajn <nanotiruturaj@gmail.com>
-// @Date  : 18th August, 2022
+// @Date  : 19th August, 2022
 // @Brief : This file, contains the logic to get the
 //          number of packages installed on the system.
 
@@ -11,11 +11,11 @@ pub fn get_num_packages() -> u32 {
         Ok(x) => x,
         Err(_) => {
             // For Debian Based Distributions
-            let _num_packages = match packages_debian_based() {
+            let num_packages = match packages_debian_based() {
                 Ok(x) => x,
                 Err(_) => return 1,
             };
-            return 1;
+            num_packages
         }
     };
 
