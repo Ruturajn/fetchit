@@ -123,6 +123,7 @@ pub fn get_sys_uptime() -> String {
             let time = String::from_utf8(x.stdout)
                 .unwrap()
                 .replace("hours", "h") // Replace words with letters.
+                .replace("hour", "h")
                 .replace("minutes", "m")
                 .replace("minute", "m")
                 .replace("days", "d")
@@ -134,5 +135,7 @@ pub fn get_sys_uptime() -> String {
                                          // up_time to "Unknown".
     };
 
+    let up_time = up_time.replace("\n", ""); // Remove any newline character
+    
     up_time
 }
