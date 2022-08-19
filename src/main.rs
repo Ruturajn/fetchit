@@ -3,11 +3,11 @@
 // @Brief: This is a system fetch tool written in Rust.
 
 use std::env; // For getting commandline arguments and reading Environment
-              // Variables
-use std::error::Error;
-use std::fs; // For reading files
-use std::process::Command; // For exit with a code.
+              // Variables.
 use colored::Colorize;
+use std::error::Error;
+use std::fs; // For reading files.
+use std::process::Command; // For exit with a code.
 
 fn main() {
     let os_name = match get_os_name() {
@@ -17,44 +17,65 @@ fn main() {
     println!("{}      : {}", format!("OS").red().bold().italic(), os_name);
 
     let kernel = get_kernel_version();
-    println!("{}  : {}", format!("KERNEL").magenta().bold().italic(), kernel);
+    println!(
+        "{}  : {}",
+        format!("KERNEL").magenta().bold().italic(),
+        kernel
+    );
 
     let shell_name = get_shell_name();
-    println!("{}   : {}", format!("SHELL").yellow().bold().italic(),shell_name);
+    println!(
+        "{}   : {}",
+        format!("SHELL").yellow().bold().italic(),
+        shell_name
+    );
 
     let session = get_session_name();
-    println!("{} : {}", format!("SESSION").blue().bold().italic(),session);
+    println!(
+        "{} : {}",
+        format!("SESSION").blue().bold().italic(),
+        session
+    );
 
     let uptime = get_sys_uptime();
     println!("{}  : {}", format!("UPTIME").cyan().bold().italic(), uptime);
 }
 
 fn get_sys_uptime() -> String {
+    // Get the uptime using the `uptime -p` command.
     let up_time = Command::new("uptime").arg("-p").output();
 
     let up_time = match up_time {
         Ok(x) => {
             let time = String::from_utf8(x.stdout)
                 .unwrap()
-                .replace("hours", "h")
+                .replace("hours", "h") // Replace words with letters.
                 .replace("minutes", "m")
-                .replace("up ", "");
+                .replace("minute", "m")
+                .replace("days", "d")
+                .replace("day", "d")
+                .replace("up ", ""); // Remove the word up.
             time
         }
-        Err(_) => "Unknown".to_string(),
+        Err(_) => "Unknown".to_string(), // If the commnd fails, assingn
+                                         // up_time to "Unknown".
     };
 
     up_time
 }
 
 fn get_kernel_version() -> String {
+    // Get the kernel version with `uname -r`.
     let kernel_ver = Command::new("uname").arg("-r").output();
 
     let kernel_ver = match kernel_ver {
         Ok(x) => {
+            // Reverse the string obtained from the output.
             let rev_kernel_ver: String =
                 String::from_utf8(x.stdout).unwrap().chars().rev().collect();
 
+            // Split the string based on `-`, and then reverse it again,
+            // to obtain only the kernel version, and not any other info.
             let rev_kernel_ver = rev_kernel_ver
                 .split("-")
                 .last()
@@ -65,36 +86,48 @@ fn get_kernel_version() -> String {
 
             rev_kernel_ver
         }
-        Err(_) => "Unknown".to_string(),
+        Err(_) => "Unknown".to_string(), // If the commnd fails assingn
+                                         // kernel_ver to "Unknown".
     };
 
     kernel_ver
 }
 
 fn get_shell_name() -> String {
+    // Read the value of the Environment Variable, `SHELL`
+    // to obtain the current shell name.
     let shell_var = "SHELL";
     match env::var(shell_var) {
         Ok(mut val) => {
-            val = val.replace("/", " ");
-            val.split(" ").last().unwrap().to_string()
+            val = val.replace("/", " "); // Replace all the forward slashes
+                                         // with a space.
+            val.split(" ").last().unwrap().to_string() // Split the string
+                                                       // based on the spaces
+                                                       // and get the last word.
         }
-        Err(_) => "Unknown".to_string(),
+        Err(_) => "Unknown".to_string(), // If the Environment variable is
+                                         // not read, return "Unknown".
     }
 }
 
 fn get_session_name() -> String {
+    // Read the value of the Environment Variable, `DESKTOP_SESSION`
+    // to obtain the name of the DE(Desktop Environment) or WM(Window Manager).
     let session_name = "DESKTOP_SESSION";
     match env::var(session_name) {
         Ok(val) => val,
         Err(_) => {
-            let session_name = "XDG_SESSION_DESKTOP";
+            let session_name = "XDG_SESSION_DESKTOP"; // If reading `DESKTOP_SESSION`
+                                                      // fails try reading `XDG_SESSION_DESKTOP`.
             match env::var(session_name) {
                 Ok(val) => val,
                 Err(_) => {
-                    let session_name = "XDG_CURRENT_DESKTOP";
+                    let session_name = "XDG_CURRENT_DESKTOP"; // If reading `XDG_SESSION_DESKTOP`
+                                                              // fails try reading `XDG_CURRENT_DESKTOP`.
                     match env::var(session_name) {
                         Ok(val) => val,
-                        Err(_) => "Unknown".to_string(),
+                        Err(_) => "Unknown".to_string(), // If all the above Environment variables
+                                                         // are not read, return "Unknown".
                     }
                 }
             }
@@ -103,7 +136,7 @@ fn get_session_name() -> String {
 }
 
 fn get_os_name() -> Result<String, Box<dyn Error>> {
-    // println!("You are running : {}", os_name);
+    // Get the name of the Distribution, using the `lsb_release` command.
     let os_name = Command::new("lsb_release").arg("-sd").output();
 
     let os_name = match os_name {
@@ -120,8 +153,8 @@ fn get_os_name() -> Result<String, Box<dyn Error>> {
 
             for line in file_contents.lines() {
                 if line.contains(search_string) {
-                    // Once found, remove everything after the `=` sign.
-                    let vec_new = &line[12..];
+                    // Get the value for the key, `PRETTY_NAME`
+                    let vec_new = line.split("=").last().unwrap();
                     // Remove the '"' , i.e. double quotes from the output.
                     let vec_new = vec_new.replace('"', "");
                     return Ok(vec_new.to_string());
@@ -132,6 +165,7 @@ fn get_os_name() -> Result<String, Box<dyn Error>> {
     };
     // Remove the '"' , i.e. double quotes from the output.
     let os_name = os_name.replace('"', "");
+    let os_name = os_name.replace("\n", ""); // Remove any newline character
 
     Ok(os_name)
 }
