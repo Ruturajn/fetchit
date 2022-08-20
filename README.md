@@ -61,7 +61,7 @@ $ cargo build --release
 # Create ~/.cargo/bin/ if it does not exist
 $ if [[ ! -d ~/.cargo/bin ]] ; then mkdir -p ~/.cargo/bin/ ; fi
 
-# Copy the executable to 
+# Copy the executable to ~/.cargo/bin/
 $ cp ./target/release/fetchit ~/.cargo/bin/
 ```
 
