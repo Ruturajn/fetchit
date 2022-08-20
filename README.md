@@ -36,6 +36,17 @@ You can install `fetchit` using any of the following methods,
 
 ### Install from Releases
 
+Head over to [Releases](https://github.com/Ruturajn/fetchit/releases) to grab a binary for `fetchit`. Once downloaded,
+```
+# Navigate to the directory where you have downloaded the tar file.
+$ tar -xvf fetchit-0.1.0-x86_64.tar.gz
+
+# Copy the executable to ~/.local/bin/, and if this directory doesn't exist create it
+$ if [[ ! -d ~/.local/bin ]] ; then mkdir -p ~/.local/bin/ ; fi
+$ cp ./fetchit ~/.local/bin/
+```
+Finally, make sure, you add `~/.local/bin/` to `PATH`, if you haven't already.
+
 ### Building from Source
 ```
 # Clone the git repo.
