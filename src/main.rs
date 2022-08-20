@@ -305,12 +305,12 @@ fn main() {
 #[derive(Debug, Parser)]
 #[clap(author, version, about, long_about = None)]
 struct FetchitArgs {
-   /// Color for the top part of the laptop
+   /// Color for the top part of the ascii art
    /// : black, red, yellow, blue, magenta, cyan, white, green
    #[clap(short, long, value_parser)]
    top_color: Option<String>,
 
-   /// Color for the bottom part of the laptop
+   /// Color for the bottom part of the ascii art
    /// : black, red, yellow, blue, magenta, cyan, white, green
    #[clap(short, long, value_parser)]
    bottom_color: Option<String>,
