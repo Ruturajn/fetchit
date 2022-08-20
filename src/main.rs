@@ -52,7 +52,8 @@ fn main() {
     // Define the length for which the horizontal characters `─`
     // should be repeated.
     let final_length = 11 + max_val + 5;
-
+    
+    // Define the default ascii art.
     let mut ascii_string=
 "     ______________        
     |  __________  |       
@@ -64,7 +65,7 @@ fn main() {
      \\ ==== ____ ==  \\     
       \\_____\\___\\_____\\  ".to_string();
 
-    
+    // Check for custom file, if given.
     let custom_ascii_string = match args.file_path {
         Some(x) => match fs::read_to_string(x) {
             Ok(y) => y,
@@ -73,14 +74,194 @@ fn main() {
         None => "Unknown".to_string(),
     };
     
+    // Update the ascii art if a file was passed, but
+    // a check for the required length is also done.
     if custom_ascii_string != "Unknown".to_string() {
-        ascii_string = custom_ascii_string;
+        let mut ascii_lines = 0;
+        for _ in ascii_string.lines() {
+            ascii_lines += 1;            
+        }
+        if ascii_lines >= 9 {
+            ascii_string = custom_ascii_string;
+        } 
     }
 
-    let mut ascii_vec = Vec::new();
+    let mut ascii_vec: Vec<String> = Vec::new();
 
     for line in ascii_string.lines() {
-        ascii_vec.push(line);
+        ascii_vec.push(line.to_string());
+    }
+
+    match args.top_color {
+        Some(x) => {
+            if x == "blue" {
+                ascii_vec[0] = ascii_vec[0].blue().to_string();
+                ascii_vec[1] = ascii_vec[1].blue().to_string();
+                ascii_vec[2] = ascii_vec[2].blue().to_string();
+                ascii_vec[3] = ascii_vec[3].blue().to_string();
+                ascii_vec[4] = ascii_vec[4].blue().to_string();
+                ascii_vec[5] = ascii_vec[5].blue().to_string();
+            } else if x == "yellow" {
+                ascii_vec[0] = ascii_vec[0].yellow().to_string();
+                ascii_vec[1] = ascii_vec[1].yellow().to_string();
+                ascii_vec[2] = ascii_vec[2].yellow().to_string();
+                ascii_vec[3] = ascii_vec[3].yellow().to_string();
+                ascii_vec[4] = ascii_vec[4].yellow().to_string();
+                ascii_vec[5] = ascii_vec[5].yellow().to_string();
+            } else if x == "magenta" {
+                ascii_vec[0] = ascii_vec[0].magenta().to_string();
+                ascii_vec[1] = ascii_vec[1].magenta().to_string();
+                ascii_vec[2] = ascii_vec[2].magenta().to_string();
+                ascii_vec[3] = ascii_vec[3].magenta().to_string();
+                ascii_vec[4] = ascii_vec[4].magenta().to_string();
+                ascii_vec[5] = ascii_vec[5].magenta().to_string();
+            } else if x == "cyan" {
+                ascii_vec[0] = ascii_vec[0].cyan().to_string();
+                ascii_vec[1] = ascii_vec[1].cyan().to_string();
+                ascii_vec[2] = ascii_vec[2].cyan().to_string();
+                ascii_vec[3] = ascii_vec[3].cyan().to_string();
+                ascii_vec[4] = ascii_vec[4].cyan().to_string();
+                ascii_vec[5] = ascii_vec[5].cyan().to_string();
+            } else if x == "black" {
+                ascii_vec[0] = ascii_vec[0].black().to_string();
+                ascii_vec[1] = ascii_vec[1].black().to_string();
+                ascii_vec[2] = ascii_vec[2].black().to_string();
+                ascii_vec[3] = ascii_vec[3].black().to_string();
+                ascii_vec[4] = ascii_vec[4].black().to_string();
+                ascii_vec[5] = ascii_vec[5].black().to_string();
+            } else if x == "white" {
+                ascii_vec[0] = ascii_vec[0].white().to_string();
+                ascii_vec[1] = ascii_vec[1].white().to_string();
+                ascii_vec[2] = ascii_vec[2].white().to_string();
+                ascii_vec[3] = ascii_vec[3].white().to_string();
+                ascii_vec[4] = ascii_vec[4].white().to_string();
+                ascii_vec[5] = ascii_vec[5].white().to_string();
+            } else {
+                ascii_vec[0] = ascii_vec[0].red().to_string();
+                ascii_vec[1] = ascii_vec[1].red().to_string();
+                ascii_vec[2] = ascii_vec[2].red().to_string();
+                ascii_vec[3] = ascii_vec[3].red().to_string();
+                ascii_vec[4] = ascii_vec[4].red().to_string();
+                ascii_vec[5] = ascii_vec[5].red().to_string();
+            }
+        },
+        None => {
+            ascii_vec[0] = ascii_vec[0].red().to_string();
+            ascii_vec[1] = ascii_vec[1].red().to_string();
+            ascii_vec[2] = ascii_vec[2].red().to_string();
+            ascii_vec[3] = ascii_vec[3].red().to_string();
+            ascii_vec[4] = ascii_vec[4].red().to_string();
+            ascii_vec[5] = ascii_vec[5].red().to_string();
+        }
+    }
+
+    match args.bottom_color {
+        Some(x) => {
+            if x == "blue" {
+                ascii_vec[6] = ascii_vec[6].blue().to_string();
+                ascii_vec[7] = ascii_vec[7].blue().to_string();
+                ascii_vec[8] = ascii_vec[8].blue().to_string();
+            } else if x == "yellow" {
+                ascii_vec[6] = ascii_vec[6].yellow().to_string();
+                ascii_vec[7] = ascii_vec[7].yellow().to_string();
+                ascii_vec[8] = ascii_vec[8].yellow().to_string();
+            } else if x == "magenta" {
+                ascii_vec[6] = ascii_vec[6].magenta().to_string();
+                ascii_vec[7] = ascii_vec[7].magenta().to_string();
+                ascii_vec[8] = ascii_vec[8].magenta().to_string();
+            } else if x == "cyan" {
+                ascii_vec[6] = ascii_vec[6].cyan().to_string();
+                ascii_vec[7] = ascii_vec[7].cyan().to_string();
+                ascii_vec[8] = ascii_vec[8].cyan().to_string();
+            } else if x == "black" {
+                ascii_vec[6] = ascii_vec[6].black().to_string();
+                ascii_vec[7] = ascii_vec[7].black().to_string();
+                ascii_vec[8] = ascii_vec[8].black().to_string();
+            } else if x == "white" {
+                ascii_vec[6] = ascii_vec[6].white().to_string();
+                ascii_vec[7] = ascii_vec[7].white().to_string();
+                ascii_vec[8] = ascii_vec[8].white().to_string();
+            } else {
+                ascii_vec[6] = ascii_vec[6].red().to_string();
+                ascii_vec[7] = ascii_vec[7].red().to_string();
+                ascii_vec[8] = ascii_vec[8].red().to_string();
+            }
+        },
+        None => {
+            ascii_vec[6] = ascii_vec[6].red().to_string();
+            ascii_vec[7] = ascii_vec[7].red().to_string();
+            ascii_vec[8] = ascii_vec[8].red().to_string();
+        }
+    }
+
+    let mut box_side = format!("│");
+    let mut box_top = format!("─").repeat(final_length);
+    let mut box_top_left_corner = format!("╭");
+    let mut box_top_right_corner = format!("╮");
+    let mut box_bottom_left_corner = format!("╰");
+    let mut box_bottom_right_corner = format!("╯");
+
+    match args.outer_box_color {
+        Some(x) => {
+            if x == "blue" {
+                box_side                = box_side.blue().to_string();
+                box_top                 = box_top.blue().to_string();
+                box_top_left_corner     = box_top_left_corner.blue().to_string();
+                box_top_right_corner    = box_top_right_corner.blue().to_string();
+                box_bottom_left_corner  = box_bottom_left_corner.blue().to_string();
+                box_bottom_right_corner = box_bottom_right_corner.blue().to_string();
+            } else if x == "yellow" {
+                box_side                = box_side.yellow().to_string();
+                box_top                 = box_top.yellow().to_string();
+                box_top_left_corner     = box_top_left_corner.yellow().to_string();
+                box_top_right_corner    = box_top_right_corner.yellow().to_string();
+                box_bottom_left_corner  = box_bottom_left_corner.yellow().to_string();
+                box_bottom_right_corner = box_bottom_right_corner.yellow().to_string();
+            } else if x == "magenta" {
+                box_side                = box_side.magenta().to_string();
+                box_top                 = box_top.magenta().to_string();
+                box_top_left_corner     = box_top_left_corner.magenta().to_string();
+                box_top_right_corner    = box_top_right_corner.magenta().to_string();
+                box_bottom_left_corner  = box_bottom_left_corner.magenta().to_string();
+                box_bottom_right_corner = box_bottom_right_corner.magenta().to_string();
+            } else if x == "cyan" {
+                box_side                = box_side.cyan().to_string();
+                box_top                 = box_top.cyan().to_string();
+                box_top_left_corner     = box_top_left_corner.cyan().to_string();
+                box_top_right_corner    = box_top_right_corner.cyan().to_string();
+                box_bottom_left_corner  = box_bottom_left_corner.cyan().to_string();
+                box_bottom_right_corner = box_bottom_right_corner.cyan().to_string();
+            } else if x == "black" {
+                box_side                = box_side.black().to_string();
+                box_top                 = box_top.black().to_string();
+                box_top_left_corner     = box_top_left_corner.black().to_string();
+                box_top_right_corner    = box_top_right_corner.black().to_string();
+                box_bottom_left_corner  = box_bottom_left_corner.black().to_string();
+                box_bottom_right_corner = box_bottom_right_corner.black().to_string();
+            } else if x == "white" {
+                box_side                = box_side.white().to_string();
+                box_top                 = box_top.white().to_string();
+                box_top_left_corner     = box_top_left_corner.white().to_string();
+                box_top_right_corner    = box_top_right_corner.white().to_string();
+                box_bottom_left_corner  = box_bottom_left_corner.white().to_string();
+                box_bottom_right_corner = box_bottom_right_corner.white().to_string();
+            } else {
+                box_side                = box_side.red().to_string();
+                box_top                 = box_top.red().to_string();
+                box_top_left_corner     = box_top_left_corner.red().to_string();
+                box_top_right_corner    = box_top_right_corner.red().to_string();
+                box_bottom_left_corner  = box_bottom_left_corner.red().to_string();
+                box_bottom_right_corner = box_bottom_right_corner.red().to_string();
+            }
+        },
+        None => {
+            box_side                = box_side.blue().to_string();
+            box_top                 = box_top.blue().to_string();
+            box_top_left_corner     = box_top_left_corner.blue().to_string();
+            box_top_right_corner    = box_top_right_corner.blue().to_string();
+            box_bottom_left_corner  = box_bottom_left_corner.blue().to_string();
+            box_bottom_right_corner = box_bottom_right_corner.blue().to_string();
+        }
     }
 
 
@@ -91,15 +272,15 @@ fn main() {
     // are chosen based on that formatting.
 
     println!("");
-    println!("{} {}{}{}", ascii_vec[0].red(), format!("╭").blue(), format!("─").repeat(final_length).blue(), format!("╮").blue());
-    println!("{} {} {}        {}  {}{}{}", ascii_vec[1].red(), format!("│").blue(), format!("OS").red().bold().italic(), format!("").red(), os_name, format!(" ").repeat(final_length - 14 - string_length_vector[0]), format!("│").blue());
-    println!("{} {} {}    {}  {}{}{}", ascii_vec[2].red(), format!("│").blue(), format!("KERNEL").magenta().bold().italic(), format!("").magenta(), kernel, format!(" ").repeat(final_length - 14 - string_length_vector[1]), format!("│").blue());
-    println!("{} {} {}     {}  {}{}{}", ascii_vec[3].red(), format!("│").blue(), format!("SHELL").yellow().bold().italic(), format!("").yellow(), shell_name, format!(" ").repeat(final_length - 14 - string_length_vector[2]), format!("│").blue());
-    println!("{} {} {}   {}  {}{}{}", ascii_vec[4].red(), format!("│").blue(), format!("SESSION").blue().bold().italic(), format!("").blue(), session, format!(" ").repeat(final_length - 14 - string_length_vector[3]), format!("│").blue());
-    println!("{} {} {}    {} {}{}{}", ascii_vec[5].red(), format!("│").blue(), format!("UPTIME").cyan().bold().italic(), format!("祥").cyan(), uptime, format!(" ").repeat(final_length - 14 - string_length_vector[4]), format!("│").blue());
-    println!("{} {} {}  {}  {}{}{}", ascii_vec[6].blue(), format!("│").blue(), format!("PACKAGES").green().bold().italic(), format!("").green(), total_packages, format!(" ").repeat(final_length - 14 - string_length_vector[5]), format!("│").blue());
-    println!("{} {}{}{}", ascii_vec[7].blue(), format!("╰").blue(), format!("─").repeat(final_length).blue(), format!("╯").blue());
-    println!("{} ", ascii_vec[8].blue());
+    println!("{} {}{}{}", ascii_vec[0], box_top_left_corner, box_top, box_top_right_corner);
+    println!("{} {} {}        {}  {}{}{}", ascii_vec[1], box_side, format!("OS").red().bold().italic(), format!("").red(), os_name, format!(" ").repeat(final_length - 14 - string_length_vector[0]), box_side);
+    println!("{} {} {}    {}  {}{}{}", ascii_vec[2], box_side, format!("KERNEL").magenta().bold().italic(), format!("").magenta(), kernel, format!(" ").repeat(final_length - 14 - string_length_vector[1]), box_side);
+    println!("{} {} {}     {}  {}{}{}", ascii_vec[3], box_side, format!("SHELL").yellow().bold().italic(), format!("").yellow(), shell_name, format!(" ").repeat(final_length - 14 - string_length_vector[2]), box_side);
+    println!("{} {} {}   {}  {}{}{}", ascii_vec[4], box_side, format!("SESSION").blue().bold().italic(), format!("").blue(), session, format!(" ").repeat(final_length - 14 - string_length_vector[3]), box_side);
+    println!("{} {} {}    {} {}{}{}", ascii_vec[5], box_side, format!("UPTIME").cyan().bold().italic(), format!("祥").cyan(), uptime, format!(" ").repeat(final_length - 14 - string_length_vector[4]), box_side);
+    println!("{} {} {}  {}  {}{}{}", ascii_vec[6], box_side, format!("PACKAGES").green().bold().italic(), format!("").green(), total_packages, format!(" ").repeat(final_length - 14 - string_length_vector[5]), box_side);
+    println!("{} {}{}{}", ascii_vec[7], box_bottom_left_corner, box_top, box_bottom_right_corner);
+    println!("{} ", ascii_vec[8]);
     println!("");
 }
 
@@ -109,12 +290,12 @@ struct FetchitArgs {
    /// Color for the top part of the laptop
    /// : black, red, yellow, blue, magenta, cyan, white
    #[clap(short, long, value_parser)]
-   top_border_color: Option<String>,
+   top_color: Option<String>,
 
    /// Color for the bottom part of the laptop
    /// : black, red, yellow, blue, magenta, cyan, white
    #[clap(short, long, value_parser)]
-   bottom_border_color: Option<String>,
+   bottom_color: Option<String>,
 
    /// Color for the box
    /// : black, red, yellow, blue, magenta, cyan, white
