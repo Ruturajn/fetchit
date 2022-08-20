@@ -16,7 +16,7 @@ pub fn get_os_name() -> Result<String, Box<dyn Error>> {
         Ok(x) => String::from_utf8(x.stdout).unwrap(),
         Err(_) => {
             // Read the `/etc/os-release` file if `lsb_release` does not exist.
-            let file_name = String::from("/home/ruturajn/test/os-release");
+            let file_name = String::from("/etc/os-release");
 
             // Read the file
             let file_contents = fs::read_to_string(file_name)?;
