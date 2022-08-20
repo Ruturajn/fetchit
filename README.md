@@ -48,9 +48,10 @@ $ cp ./fetchit ~/.local/bin/
 Finally, make sure, you add `~/.local/bin/` to `PATH`, if you haven't already.
 
 ### Building from Source
-
-First of all [install Rust](https://www.rust-lang.org/tools/install), then you can follow these steps,
 ```
+# First of all install Rust, see "https://www.rust-lang.org/tools/install"
+$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 # Clone the git repo.
 $ git clone https://github.com/Ruturajn/fetchit.git
 
