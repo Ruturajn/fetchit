@@ -96,7 +96,7 @@ pub fn packages_generic(cmd: &str, options: Vec<&str>) -> Result<String, String>
     // if so, unwrap the output from stdout, and return it.
     match packages {
         Ok(x) => Ok(String::from_utf8(x.stdout).unwrap()),
-        Err(e) => return Err(e.to_string()),
+        Err(e) => Err(e.to_string()),
     }
 }
 
@@ -161,7 +161,7 @@ pub fn packges_fedora_based() -> Result<String, String> {
             let packages = Command::new("dnf").args(["list", "installed"]).output();
             match packages {
                 Ok(x) => Ok(String::from_utf8(x.stdout).unwrap()),
-                Err(e) => return Err(e.to_string()),
+                Err(e) => Err(e.to_string()),
             }
         }
     }
@@ -188,9 +188,9 @@ pub fn packages_nixos_based() -> Result<String, String> {
                     let prev_output = String::from_utf8(y.stdout).unwrap();
                     Ok(format!("{}{}", packages_output, prev_output))
                 }
-                Err(e) => return Err(e.to_string()),
+                Err(e) => Err(e.to_string()),
             }
         }
-        Err(e) => return Err(e.to_string()),
+        Err(e) => Err(e.to_string()),
     }
 }
