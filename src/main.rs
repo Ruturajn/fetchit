@@ -246,12 +246,12 @@ fn main() {
                 box_bottom_left_corner  = box_bottom_left_corner.white().to_string();
                 box_bottom_right_corner = box_bottom_right_corner.white().to_string();
             } else {
-                box_side                = box_side.blue().to_string();
-                box_top                 = box_top.blue().to_string();
-                box_top_left_corner     = box_top_left_corner.blue().to_string();
-                box_top_right_corner    = box_top_right_corner.blue().to_string();
-                box_bottom_left_corner  = box_bottom_left_corner.blue().to_string();
-                box_bottom_right_corner = box_bottom_right_corner.blue().to_string();
+                box_side                = box_side.red().to_string();
+                box_top                 = box_top.red().to_string();
+                box_top_left_corner     = box_top_left_corner.red().to_string();
+                box_top_right_corner    = box_top_right_corner.red().to_string();
+                box_bottom_left_corner  = box_bottom_left_corner.red().to_string();
+                box_bottom_right_corner = box_bottom_right_corner.red().to_string();
             }
         },
         None => {
