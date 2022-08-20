@@ -78,7 +78,7 @@ fn main() {
     // a check for the required length is also done.
     if custom_ascii_string != "Unknown".to_string() {
         let mut ascii_lines = 0;
-        for _ in ascii_string.lines() {
+        for _ in custom_ascii_string.lines() {
             ascii_lines += 1;            
         }
         if ascii_lines >= 9 {
