@@ -136,6 +136,13 @@ fn main() {
                 ascii_vec[3] = ascii_vec[3].white().to_string();
                 ascii_vec[4] = ascii_vec[4].white().to_string();
                 ascii_vec[5] = ascii_vec[5].white().to_string();
+            } else if x == "green" {
+                ascii_vec[0] = ascii_vec[0].green().to_string();
+                ascii_vec[1] = ascii_vec[1].green().to_string();
+                ascii_vec[2] = ascii_vec[2].green().to_string();
+                ascii_vec[3] = ascii_vec[3].green().to_string();
+                ascii_vec[4] = ascii_vec[4].green().to_string();
+                ascii_vec[5] = ascii_vec[5].green().to_string();
             } else {
                 ascii_vec[0] = ascii_vec[0].red().to_string();
                 ascii_vec[1] = ascii_vec[1].red().to_string();
@@ -181,6 +188,10 @@ fn main() {
                 ascii_vec[6] = ascii_vec[6].white().to_string();
                 ascii_vec[7] = ascii_vec[7].white().to_string();
                 ascii_vec[8] = ascii_vec[8].white().to_string();
+            }else if x == "green" {
+                ascii_vec[6] = ascii_vec[6].green().to_string();
+                ascii_vec[7] = ascii_vec[7].green().to_string();
+                ascii_vec[8] = ascii_vec[8].green().to_string();
             } else {
                 ascii_vec[6] = ascii_vec[6].red().to_string();
                 ascii_vec[7] = ascii_vec[7].red().to_string();
@@ -245,6 +256,13 @@ fn main() {
                 box_top_right_corner    = box_top_right_corner.white().to_string();
                 box_bottom_left_corner  = box_bottom_left_corner.white().to_string();
                 box_bottom_right_corner = box_bottom_right_corner.white().to_string();
+            } else if x == "green" {
+                box_side                = box_side.green().to_string();
+                box_top                 = box_top.green().to_string();
+                box_top_left_corner     = box_top_left_corner.green().to_string();
+                box_top_right_corner    = box_top_right_corner.green().to_string();
+                box_bottom_left_corner  = box_bottom_left_corner.green().to_string();
+                box_bottom_right_corner = box_bottom_right_corner.green().to_string();
             } else {
                 box_side                = box_side.red().to_string();
                 box_top                 = box_top.red().to_string();
@@ -288,17 +306,17 @@ fn main() {
 #[clap(author, version, about, long_about = None)]
 struct FetchitArgs {
    /// Color for the top part of the laptop
-   /// : black, red, yellow, blue, magenta, cyan, white
+   /// : black, red, yellow, blue, magenta, cyan, white, green
    #[clap(short, long, value_parser)]
    top_color: Option<String>,
 
    /// Color for the bottom part of the laptop
-   /// : black, red, yellow, blue, magenta, cyan, white
+   /// : black, red, yellow, blue, magenta, cyan, white, green
    #[clap(short, long, value_parser)]
    bottom_color: Option<String>,
 
    /// Color for the box
-   /// : black, red, yellow, blue, magenta, cyan, white
+   /// : black, red, yellow, blue, magenta, cyan, white, green
    #[clap(short, long, value_parser)]
    outer_box_color: Option<String>,
 
