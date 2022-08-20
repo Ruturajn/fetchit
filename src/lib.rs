@@ -27,10 +27,10 @@ pub fn get_os_name() -> Result<String, Box<dyn Error>> {
             for line in file_contents.lines() {
                 if line.contains(search_string) {
                     // Get the value for the key, `PRETTY_NAME`
-                    let vec_new = line.split("=").last().unwrap();
+                    let vec_new = line.split('=').last().unwrap();
                     // Remove the '"' , i.e. double quotes from the output.
                     let vec_new = vec_new.replace('"', "");
-                    return Ok(vec_new.to_string());
+                    return Ok(vec_new);
                 }
             }
             String::from("Unknown")
@@ -38,7 +38,7 @@ pub fn get_os_name() -> Result<String, Box<dyn Error>> {
     };
     // Remove the '"' , i.e. double quotes from the output.
     let os_name = os_name.replace('"', "");
-    let os_name = os_name.replace("\n", ""); // Remove any newline character
+    let os_name = os_name.replace('\n', ""); // Remove any newline character
 
     Ok(os_name)
 }
@@ -56,7 +56,7 @@ pub fn get_kernel_version() -> String {
             // Split the string based on `-`, and then reverse it again,
             // to obtain only the kernel version, and not any other info.
             let rev_kernel_ver = rev_kernel_ver
-                .split("-")
+                .split('-')
                 .last()
                 .unwrap()
                 .chars()
@@ -78,9 +78,9 @@ pub fn get_shell_name() -> String {
     let shell_var = "SHELL";
     match env::var(shell_var) {
         Ok(mut val) => {
-            val = val.replace("/", " "); // Replace all the forward slashes
+            val = val.replace('/', " "); // Replace all the forward slashes
                                          // with a space.
-            val.split(" ").last().unwrap().to_string() // Split the string
+            val.split(' ').last().unwrap().to_string() // Split the string
                                                        // based on the spaces
                                                        // and get the last word.
         }
@@ -120,7 +120,8 @@ pub fn get_sys_uptime() -> String {
 
     let up_time = match up_time {
         Ok(x) => {
-            let time = String::from_utf8(x.stdout)
+             // Remove the word up.
+            String::from_utf8(x.stdout)
                 .unwrap()
                 .replace("hours", "h") // Replace words with letters.
                 .replace("hour", "h")
@@ -128,14 +129,13 @@ pub fn get_sys_uptime() -> String {
                 .replace("minute", "m")
                 .replace("days", "d")
                 .replace("day", "d")
-                .replace("up ", ""); // Remove the word up.
-            time
+                .replace("up ", "")
         }
         Err(_) => "Unknown".to_string(), // If the commnd fails, assingn
                                          // up_time to "Unknown".
     };
 
-    let up_time = up_time.replace("\n", ""); // Remove any newline character
+     // Remove any newline character
 
-    up_time
+    up_time.replace('\n', "")
 }

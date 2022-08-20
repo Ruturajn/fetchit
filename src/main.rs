@@ -8,7 +8,7 @@ use clap::Parser;
 
 // Bring the functions from `lib.rs`, and 
 // `packages.rs` into scope.
-use fetchit;
+
 pub mod packages;
 
 
@@ -76,7 +76,7 @@ fn main() {
     
     // Update the ascii art if a file was passed, but
     // a check for the required length is also done.
-    if custom_ascii_string != "Unknown".to_string() {
+    if custom_ascii_string != *"Unknown" {
         let mut ascii_lines = 0;
         for _ in custom_ascii_string.lines() {
             ascii_lines += 1;            
@@ -205,12 +205,12 @@ fn main() {
         }
     }
 
-    let mut box_side = format!("│");
-    let mut box_top = format!("─").repeat(final_length);
-    let mut box_top_left_corner = format!("╭");
-    let mut box_top_right_corner = format!("╮");
-    let mut box_bottom_left_corner = format!("╰");
-    let mut box_bottom_right_corner = format!("╯");
+    let mut box_side = "│".to_string();
+    let mut box_top = "─".to_string().repeat(final_length);
+    let mut box_top_left_corner = "╭".to_string();
+    let mut box_top_right_corner = "╮".to_string();
+    let mut box_bottom_left_corner = "╰".to_string();
+    let mut box_bottom_right_corner = "╯".to_string();
 
     match args.outer_box_color {
         Some(x) => {
@@ -289,17 +289,17 @@ fn main() {
     // printed, and this text contains 14 characters. The `11` and `5` above
     // are chosen based on that formatting.
 
-    println!("");
+    println!();
     println!("{} {}{}{}", ascii_vec[0], box_top_left_corner, box_top, box_top_right_corner);
-    println!("{} {} {}        {}  {}{}{}", ascii_vec[1], box_side, format!("OS").red().bold().italic(), format!("").red(), os_name, format!(" ").repeat(final_length - 14 - string_length_vector[0]), box_side);
-    println!("{} {} {}    {}  {}{}{}", ascii_vec[2], box_side, format!("KERNEL").magenta().bold().italic(), format!("").magenta(), kernel, format!(" ").repeat(final_length - 14 - string_length_vector[1]), box_side);
-    println!("{} {} {}     {}  {}{}{}", ascii_vec[3], box_side, format!("SHELL").yellow().bold().italic(), format!("").yellow(), shell_name, format!(" ").repeat(final_length - 14 - string_length_vector[2]), box_side);
-    println!("{} {} {}   {}  {}{}{}", ascii_vec[4], box_side, format!("SESSION").blue().bold().italic(), format!("").blue(), session, format!(" ").repeat(final_length - 14 - string_length_vector[3]), box_side);
-    println!("{} {} {}    {} {}{}{}", ascii_vec[5], box_side, format!("UPTIME").cyan().bold().italic(), format!("祥").cyan(), uptime, format!(" ").repeat(final_length - 14 - string_length_vector[4]), box_side);
-    println!("{} {} {}  {}  {}{}{}", ascii_vec[6], box_side, format!("PACKAGES").green().bold().italic(), format!("").green(), total_packages, format!(" ").repeat(final_length - 14 - string_length_vector[5]), box_side);
+    println!("{} {} {}        {}  {}{}{}", ascii_vec[1], box_side, "OS".to_string().red().bold().italic(), "".to_string().red(), os_name, " ".to_string().repeat(final_length - 14 - string_length_vector[0]), box_side);
+    println!("{} {} {}    {}  {}{}{}", ascii_vec[2], box_side, "KERNEL".to_string().magenta().bold().italic(), "".to_string().magenta(), kernel, " ".to_string().repeat(final_length - 14 - string_length_vector[1]), box_side);
+    println!("{} {} {}     {}  {}{}{}", ascii_vec[3], box_side, "SHELL".to_string().yellow().bold().italic(), "".to_string().yellow(), shell_name, " ".to_string().repeat(final_length - 14 - string_length_vector[2]), box_side);
+    println!("{} {} {}   {}  {}{}{}", ascii_vec[4], box_side, "SESSION".to_string().blue().bold().italic(), "".to_string().blue(), session, " ".to_string().repeat(final_length - 14 - string_length_vector[3]), box_side);
+    println!("{} {} {}    {} {}{}{}", ascii_vec[5], box_side, "UPTIME".to_string().cyan().bold().italic(), "祥".to_string().cyan(), uptime, " ".to_string().repeat(final_length - 14 - string_length_vector[4]), box_side);
+    println!("{} {} {}  {}  {}{}{}", ascii_vec[6], box_side, "PACKAGES".to_string().green().bold().italic(), "".to_string().green(), total_packages, " ".to_string().repeat(final_length - 14 - string_length_vector[5]), box_side);
     println!("{} {}{}{}", ascii_vec[7], box_bottom_left_corner, box_top, box_bottom_right_corner);
     println!("{} ", ascii_vec[8]);
-    println!("");
+    println!();
 }
 
 #[derive(Debug, Parser)]
