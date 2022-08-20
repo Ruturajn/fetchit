@@ -65,6 +65,12 @@ $ if [[ ! -d ~/.cargo/bin ]] ; then mkdir -p ~/.cargo/bin/ ; fi
 $ cp ./target/release/fetchit ~/.cargo/bin/
 ```
 
+<br>
+
+> Note: Please feel free to open ***Issues*** and ***Pull requests***, if you feel something is out of order, or if you are facing any problems.
+
+<br>
+
 ## Usage
 ```
 fetchit 0.1.0
