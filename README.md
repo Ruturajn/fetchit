@@ -20,7 +20,7 @@ in height. If this condition is not met (especially, the height, i.e. the number
 
 <div align="center">
 
-<img src="https://user-images.githubusercontent.com/56625259/185761191-26002c20-b4a4-43cd-929d-a55dcacff9c3.png" width="445" height="201"> &ensp; <img src="https://user-images.githubusercontent.com/56625259/185761191-26002c20-b4a4-43cd-929d-a55dcacff9c3.png" width="445" height="201">
+<img src="https://user-images.githubusercontent.com/56625259/185761191-26002c20-b4a4-43cd-929d-a55dcacff9c3.png" width="445" height="201"> &nbsp; <img src="https://user-images.githubusercontent.com/56625259/185761191-26002c20-b4a4-43cd-929d-a55dcacff9c3.png" width="445" height="201">
 
 <img src="https://user-images.githubusercontent.com/56625259/185761450-3251ad79-ce36-4441-bb96-52781ab06828.png" width="464" height="204">
 
