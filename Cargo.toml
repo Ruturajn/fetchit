@@ -2,8 +2,11 @@
 name = "fetchit"
 version = "0.1.0"
 edition = "2021"
+authors=["Ruturajn <nanotiruturaj@gmail.com>"]
+description="A System fetch tool for Linux written in Rust"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+clap = { version = "3.2.17", features = ["derive"] }
 colored = "2.0.0"
