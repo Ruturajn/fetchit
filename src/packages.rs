@@ -6,78 +6,17 @@
 use std::process::{Command, Stdio}; // For executing shell commands.
 
 pub fn get_num_packages() -> u32 {
-    // For Arch Based Distributions.
-    let num_packages = match packages_generic("pacman", vec!["-Q"]) {
-        Ok(x) => x,
-        Err(_) => {
-            // For Debian Based Distributions.
-            match packages_debian_based() {
-                Ok(x) => x,
-                Err(_) => {
-                    // For Fedora based Distributions.
-                    match packges_fedora_based() {
-                        Ok(x) => x,
-                        Err(_) => {
-                            // For BSD Based Distributions.
-                            match packages_generic("pkg", vec!["info"]) {
-                                Ok(x) => x,
-                                Err(_) => {
-                                    // For Gentoo Based Distributions.
-                                    match packages_generic("ls", vec!["-d", "var/db/pkg/*/*"]) {
-                                        Ok(x) => x,
-                                        Err(_) => {
-                                            // For Venon Linux Based Distributions.
-                                            match packages_generic(
-                                                "ls",
-                                                vec!["-d", "/var/lib/scratchpkg/db/*"],
-                                            ) {
-                                                Ok(x) => x,
-                                                Err(_) => {
-                                                    // For Solus Based Distributions.
-                                                    match packages_generic(
-                                                        "ls",
-                                                        vec!["/var/lib/eopkg/package/"],
-                                                    ) {
-                                                        Ok(x) => x,
-                                                        Err(_) => {
-                                                            // For Void Linux Based Distributions.
-                                                            match packages_generic(
-                                                                "xbps-query",
-                                                                vec!["-l"],
-                                                            ) {
-                                                                Ok(x) => x,
-                                                                Err(_) => {
-                                                                    // For OpenSUSE Based Distributions.
-                                                                    match packages_generic(
-                                                                        "rpm",
-                                                                        vec!["-qa"],
-                                                                    ) {
-                                                                        Ok(x) => x,
-                                                                        Err(_) => {
-                                                                            // For NixOS Based
-                                                                            // Distributions.
-                                                                            match packages_nixos_based() {
-                                                                                Ok(x) => x,
-                                                                                Err(_) => String::from("Unknown")
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
+    let num_packages = packages_generic("pacman", &["-Q"])
+        .or_else(|_| packages_debian_based())
+        .or_else(|_| packges_fedora_based())
+        .or_else(|_| packages_generic("pkg", &["info"]))
+        .or_else(|_| packages_generic("ls", &["-d", "var/db/pkg/*/*"]))
+        .or_else(|_| packages_generic("ls", &["-d", "/var/lib/scratchpkg/db/*"]))
+        .or_else(|_| packages_generic("ls", &["/var/lib/eopkg/package/"]))
+        .or_else(|_| packages_generic("xbps-query", &["-l"]))
+        .or_else(|_| packages_generic("rpm", &["-qa"]))
+        .or_else(|_| packages_nixos_based())
+        .unwrap_or_else(|_| "Unknown".to_string());
 
     // Count the total number of packages
     let mut total_count: u32 = 0;
@@ -88,7 +27,7 @@ pub fn get_num_packages() -> u32 {
     total_count
 }
 
-pub fn packages_generic(cmd: &str, options: Vec<&str>) -> Result<String, String> {
+pub fn packages_generic(cmd: &str, options: &[&str]) -> Result<String, String> {
     // Use `pkg info` to list the installed packages.
     let packages = Command::new(cmd).args(options).output();
 
