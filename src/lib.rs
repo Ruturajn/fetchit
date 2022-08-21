@@ -137,7 +137,10 @@ pub fn get_session_name() -> String {
                                         .last()
                                         .unwrap()
                                         .to_string()
-                                        .replace('"', ""); // Remove double-quotes.
+                                        .replace('"', "") // Remove double-quotes.
+                                        .replace(' ', ""); // Remove space literal, which is
+                                                           // present between the `_NET_WM_NAME`
+                                                           // and it's value, after the `=` sign.
                                     return wm_name;
                                 }
                             }
