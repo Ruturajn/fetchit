@@ -34,6 +34,20 @@ in height. If this condition is not met (especially, the height, i.e. the number
 
 You can install `fetchit` using any of the following methods,
 
+### Arch Linux
+`fetchit` is available in the AUR. If you have an AUR helper (for example [paru](https://github.com/Morganamilo/paru))
+
+```sh
+paru -S fetchit-git
+```
+
+Or alternatively:
+```sh
+git clone https://aur.archlinux.org/fetchit-git.git
+cd fetchit-git
+makepkg -si
+```
+
 ### Install from Releases
 
 Head over to [Releases](https://github.com/Ruturajn/fetchit/releases) to grab a binary for `fetchit`. Once downloaded,
