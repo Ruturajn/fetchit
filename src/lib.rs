@@ -90,67 +90,77 @@ pub fn get_shell_name() -> String {
 }
 
 pub fn get_session_name() -> String {
+    // First check `DESKTOP_SESSION`.
     // Read the value of the Environment Variable, `DESKTOP_SESSION`
     // to obtain the name of the DE(Desktop Environment) or WM(Window Manager).
     let session_name = "DESKTOP_SESSION";
-    match env::var(session_name) {
-        Ok(val) => val,
-        Err(_) => {
-            let session_name = "XDG_SESSION_DESKTOP"; // If reading `DESKTOP_SESSION`
-                                                      // fails try reading `XDG_SESSION_DESKTOP`.
-            match env::var(session_name) {
-                Ok(val) => val,
-                Err(_) => {
-                    let session_name = "XDG_CURRENT_DESKTOP"; // If reading `XDG_SESSION_DESKTOP`
-                                                              // fails try reading `XDG_CURRENT_DESKTOP`.
-                    match env::var(session_name) {
-                        Ok(val) => val,
-                        Err(_) => {
-                            // Now, we try looking at `_NET_WM_NAME`, by using `xprop`.
-                            let xprop_id = Command::new("xprop")
-                                .args(["-root", "-notype", "_NET_SUPPORTING_WM_CHECK"])
-                                .output();
 
-                            // If the above commnd ran successfully, assign its output to `xprop_id`.
-                            let xprop_id = match xprop_id {
-                                Ok(x) => String::from_utf8(x.stdout).unwrap(),
-                                Err(_) => "Unknown".to_string(),
-                            };
+    // If that fails, assign `wm_name` to `Unknown`
+    let wm_name = env::var(session_name).unwrap_or_else(|_| "Unknown".to_string());
 
-                            // Extract the ID
-                            let xprop_id = xprop_id.split(' ').last().unwrap();
+    // If there was an error, in reading `DESKTOP_SESSION`, or if it is empty,
+    // try reading `XDG_SESSION_DESKTOP`.
+    if wm_name.is_empty() || wm_name == *"Unknown" {
+        let session_name = "XDG_SESSION_DESKTOP";
+        let wm_name = env::var(session_name).unwrap_or_else(|_| "Unknown".to_string());
 
-                            // Call `xprop` again, but now by passing in the ID, we just found.
-                            let mut wm_name = match Command::new("xprop")
-                                .args(["-id", xprop_id, "-notype"])
-                                .output()
-                            {
-                                Ok(x) => String::from_utf8(x.stdout).unwrap(),
-                                Err(_) => "Unknown".to_string(),
-                            };
+        // If there was an error, in reading `XDG_SESSION_DESKTOP`, or if it is
+        // empty, try reading `XDG_CURRENT_DESKTOP`.
+        if wm_name.is_empty() || wm_name == *"Unknown" {
+            let session_name = "XDG_CURRENT_DESKTOP";
+            let wm_name = env::var(session_name).unwrap_or_else(|_| "Unknown".to_string());
 
-                            // Now, from the output, of the above call, we look for `_NET_WM_NAME`.
-                            for line in wm_name.lines() {
-                                if line.contains("_NET_WM_NAME") {
-                                    wm_name = line
-                                        .split('=')
-                                        .last()
-                                        .unwrap()
-                                        .to_string()
-                                        .replace('"', "") // Remove double-quotes.
-                                        .replace(' ', ""); // Remove space literal, which is
-                                                           // present between the `_NET_WM_NAME`
-                                                           // and it's value, after the `=` sign.
-                                    return wm_name;
-                                }
-                            }
-                            // If all else fails, return "Unknown".
-                            String::from("Unknown")
-                        }
+            // If there was an error, in reading `XDG_CURRENT_DESKTOP`, fall back
+            // to reading `_NET_WM_NAME` using `xprop`.
+            if wm_name.is_empty() || wm_name == *"Unknown" {
+                // Now, we try looking at `_NET_WM_NAME`, by using `xprop`.
+                let xprop_id = Command::new("xprop")
+                    .args(["-root", "-notype", "_NET_SUPPORTING_WM_CHECK"])
+                    .output();
+
+                // If the above commnd ran successfully, assign its output to `xprop_id`.
+                let xprop_id = match xprop_id {
+                    Ok(x) => String::from_utf8(x.stdout).unwrap(),
+                    Err(_) => "Unknown".to_string(),
+                };
+
+                // Extract the ID
+                let xprop_id = xprop_id.split(' ').last().unwrap();
+
+                // Call `xprop` again, but now by passing in the ID, we just found.
+                let mut wm_name = match Command::new("xprop")
+                    .args(["-id", xprop_id, "-notype"])
+                    .output()
+                {
+                    Ok(x) => String::from_utf8(x.stdout).unwrap(),
+                    Err(_) => "Unknown".to_string(),
+                };
+
+                // Now, from the output, of the above call, we look for `_NET_WM_NAME`.
+                for line in wm_name.lines() {
+                    if line.contains("_NET_WM_NAME") {
+                        wm_name = line
+                            .split('=')
+                            .last()
+                            .unwrap()
+                            .to_string()
+                            .replace('"', "") // Remove double-quotes.
+                            .replace(' ', ""); // Remove space literal, which is
+                                               // present between the `_NET_WM_NAME`
+                                               // and it's value, after the `=` sign.
+                        return wm_name;
                     }
                 }
+                // If all else fails, return "Unknown".
+                String::from("Unknown")
+            } else {
+                wm_name
             }
+        } else {
+            wm_name
         }
+    } else {
+        wm_name
     }
 }
 
@@ -178,4 +188,67 @@ pub fn get_sys_uptime() -> String {
     // Remove any newline character.
 
     up_time.replace('\n', "")
+}
+
+// Add some tests, for testing the `get_session_name()` function.
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::env;
+
+    #[test]
+    fn fallback_session() {
+        // Remove all the checked Environment variables.
+        let env_var_1 = "DESKTOP_SESSION";
+        env::remove_var(env_var_1);
+
+        let env_var_2 = "XDG_CURRENT_DESKTOP";
+        env::remove_var(env_var_2);
+
+        let env_var_3 = "XDG_SESSION_DESKTOP";
+        env::remove_var(env_var_3);
+
+        let wm_name = get_session_name();
+        assert_eq!(wm_name, "LG3D");
+    }
+
+    #[test]
+    fn xdg_current() {
+        // Remove all the checked Environment variables.
+        let env_var_1 = "DESKTOP_SESSION";
+        env::remove_var(env_var_1);
+
+        let env_var_2 = "XDG_CURRENT_DESKTOP";
+        env::remove_var(env_var_2);
+
+        let env_var_3 = "XDG_SESSION_DESKTOP";
+        env::remove_var(env_var_3);
+
+        // Set `XDG_SESSION_DESKTOP`
+        let env_var = "XDG_CURRENT_DESKTOP";
+        env::set_var(env_var, "Qtile".to_string());
+
+        let wm_name = get_session_name();
+        assert_eq!(wm_name, "Qtile");
+    }
+
+    #[test]
+    fn xdg_session() {
+        // Remove all the checked Environment variables.
+        let env_var_1 = "DESKTOP_SESSION";
+        env::remove_var(env_var_1);
+
+        let env_var_2 = "XDG_CURRENT_DESKTOP";
+        env::remove_var(env_var_2);
+
+        let env_var_3 = "XDG_SESSION_DESKTOP";
+        env::remove_var(env_var_3);
+
+        // Set `XDG_SESSION_DESKTOP`
+        let env_var = "XDG_SESSION_DESKTOP";
+        env::set_var(env_var, "Testing".to_string());
+
+        let wm_name = get_session_name();
+        assert_eq!(wm_name, "Testing");
+    }
 }
