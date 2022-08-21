@@ -105,8 +105,45 @@ pub fn get_session_name() -> String {
                                                               // fails try reading `XDG_CURRENT_DESKTOP`.
                     match env::var(session_name) {
                         Ok(val) => val,
-                        Err(_) => "Unknown".to_string(), // If all the above Environment variables
-                                                         // are not read, return "Unknown".
+                        Err(_) => {
+                            // Now, we try looking at `_NET_WM_NAME`, by using `xprop`.
+                            let xprop_id = Command::new("xprop")
+                                .args(["-root", "-notype", "_NET_SUPPORTING_WM_CHECK"])
+                                .output();
+
+                            // If the above commnd ran successfully, assign its output to `xprop_id`.
+                            let xprop_id = match xprop_id {
+                                Ok(x) => String::from_utf8(x.stdout).unwrap(),
+                                Err(_) => "Unknown".to_string(),
+                            };
+
+                            // Extract the ID
+                            let xprop_id = xprop_id.split(' ').last().unwrap();
+
+                            // Call `xprop` again, but now by passing in the ID, we just found.
+                            let mut wm_name = match Command::new("xprop")
+                                .args(["-id", xprop_id, "-notype"])
+                                .output()
+                            {
+                                Ok(x) => String::from_utf8(x.stdout).unwrap(),
+                                Err(_) => "Unknown".to_string(),
+                            };
+
+                            // Now, from the output, of the above call, we look for `_NET_WM_NAME`.
+                            for line in wm_name.lines() {
+                                if line.contains("_NET_WM_NAME") {
+                                    wm_name = line
+                                        .split('=')
+                                        .last()
+                                        .unwrap()
+                                        .to_string()
+                                        .replace('"', ""); // Remove double-quotes.
+                                    return wm_name;
+                                }
+                            }
+                            // If all else fails, return "Unknown".
+                            String::from("Unknown")
+                        }
                     }
                 }
             }
@@ -120,7 +157,7 @@ pub fn get_sys_uptime() -> String {
 
     let up_time = match up_time {
         Ok(x) => {
-             // Remove the word up.
+            // Remove the word up.
             String::from_utf8(x.stdout)
                 .unwrap()
                 .replace("hours", "h") // Replace words with letters.
@@ -135,7 +172,7 @@ pub fn get_sys_uptime() -> String {
                                          // up_time to "Unknown".
     };
 
-     // Remove any newline character
+    // Remove any newline character.
 
     up_time.replace('\n', "")
 }
