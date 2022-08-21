@@ -65,7 +65,7 @@ pub fn get_kernel_version() -> String {
 
             rev_kernel_ver
         }
-        Err(_) => "Unknown".to_string(), // If the commnd fails assingn
+        Err(_) => "Unknown".to_string(), // If the command fails assign
                                          // kernel_ver to "Unknown".
     };
 
@@ -118,7 +118,7 @@ pub fn get_session_name() -> String {
                     .args(["-root", "-notype", "_NET_SUPPORTING_WM_CHECK"])
                     .output();
 
-                // If the above commnd ran successfully, assign its output to `xprop_id`.
+                // If the above command ran successfully, assign its output to `xprop_id`.
                 let xprop_id = match xprop_id {
                     Ok(x) => String::from_utf8(x.stdout).unwrap(),
                     Err(_) => "Unknown".to_string(),
@@ -181,7 +181,7 @@ pub fn get_sys_uptime() -> String {
                 .replace("day", "d")
                 .replace("up ", "")
         }
-        Err(_) => "Unknown".to_string(), // If the commnd fails, assingn
+        Err(_) => "Unknown".to_string(), // If the command fails, assign
                                          // up_time to "Unknown".
     };
 
@@ -190,6 +190,20 @@ pub fn get_sys_uptime() -> String {
     up_time.replace('\n', "")
 }
 
+
+
+pub fn get_hostname() -> String {
+    // Get the hostname using the 'hostname' command
+    let hostname = Command::new("hostname").output();
+    let hostname = match hostname {
+        Ok(x) => {
+            String::from_utf8(x.stdout).unwrap()
+        }
+        Err(_) => "Unknown".to_string(), // If the command fails, return "Unknown"
+    };
+    // Remove any new line character
+    hostname.replace('\n', "")
+}
 // Add some tests, for testing the `get_session_name()` function.
 #[cfg(test)]
 mod tests {

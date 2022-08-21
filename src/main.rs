@@ -31,13 +31,15 @@ fn main() {
 
     let total_packages = packages::get_num_packages().to_string();
 
+    let hostname = fetchit::get_hostname();
     // Create a vector to store the lengths of all the strings
     let string_length_vector = vec![os_name.len(),
                                     kernel.len(),
                                     shell_name.len(),
                                     session.len(),
                                     uptime.len(),
-                                    total_packages.len()];
+                                    total_packages.len(),
+                                    hostname.len()];
 
     // Initialize the maximum string length to `0.`
     let mut max_val = 0;
@@ -297,8 +299,8 @@ fn main() {
     println!("{} {} {}   {}  {}{}{}", ascii_vec[4], box_side, "SESSION".to_string().blue().bold().italic(), "".to_string().blue(), session, " ".to_string().repeat(final_length - 14 - string_length_vector[3]), box_side);
     println!("{} {} {}    {} {}{}{}", ascii_vec[5], box_side, "UPTIME".to_string().cyan().bold().italic(), "祥".to_string().cyan(), uptime, " ".to_string().repeat(final_length - 14 - string_length_vector[4]), box_side);
     println!("{} {} {}  {}  {}{}{}", ascii_vec[6], box_side, "PACKAGES".to_string().green().bold().italic(), "".to_string().green(), total_packages, " ".to_string().repeat(final_length - 14 - string_length_vector[5]), box_side);
-    println!("{} {}{}{}", ascii_vec[7], box_bottom_left_corner, box_top, box_bottom_right_corner);
-    println!("{} ", ascii_vec[8]);
+    println!("{} {} {}  {}  {}{}{}", ascii_vec[7], box_side, "HOSTNAME".to_string().white().bold().italic(), "".to_string().white(), hostname, " ".to_string().repeat(final_length - 14 - string_length_vector[6]), box_side);
+    println!("{}   {}{}{}", ascii_vec[8], box_bottom_left_corner, box_top, box_bottom_right_corner);
     println!();
 }
 
