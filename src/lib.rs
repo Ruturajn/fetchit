@@ -194,16 +194,19 @@ pub fn get_sys_uptime() -> String {
 
 pub fn get_hostname() -> String {
     // Get the hostname using the 'hostname' command
-    let hostname = Command::new("hostname").output();
+    let hostname= Command::new("hostname").output();
     let hostname = match hostname {
         Ok(x) => {
             String::from_utf8(x.stdout).unwrap()
+            }
+        Err(_) => {
+            fs::read_to_string("/proc/sys/kernel/hostname").unwrap_or_else(|_|"unknown".to_string())
         }
-        Err(_) => "Unknown".to_string(), // If the command fails, return "Unknown"
     };
     // Remove any new line character
     hostname.replace('\n', "")
 }
+
 // Add some tests, for testing the `get_session_name()` function.
 #[cfg(test)]
 mod tests {
@@ -240,7 +243,7 @@ mod tests {
 
         // Set `XDG_SESSION_DESKTOP`
         let env_var = "XDG_CURRENT_DESKTOP";
-        env::set_var(env_var, "Qtile".to_string());
+        env::set_var(env_var, "Qtile");
 
         let wm_name = get_session_name();
         assert_eq!(wm_name, "Qtile");
@@ -260,7 +263,7 @@ mod tests {
 
         // Set `XDG_SESSION_DESKTOP`
         let env_var = "XDG_SESSION_DESKTOP";
-        env::set_var(env_var, "Testing".to_string());
+        env::set_var(env_var, "Testing");
 
         let wm_name = get_session_name();
         assert_eq!(wm_name, "Testing");
