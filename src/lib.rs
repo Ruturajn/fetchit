@@ -190,27 +190,19 @@ pub fn get_sys_uptime() -> String {
     up_time.replace('\n', "")
 }
 
-
-
 pub fn get_hostname() -> String {
     // Get the hostname using the 'hostname' command
     let hostname = Command::new("hostname").output();
     let hostname = match hostname {
-        Ok(x) => {
-            String::from_utf8(x.stdout).unwrap()
-        },
+        Ok(x) => String::from_utf8(x.stdout).unwrap(),
         Err(_) => {
             let hostname = Command::new("uname").arg("-n").output();
             match hostname {
-                Ok(x) => {
-                   String::from_utf8(x.stdout).unwrap()
-                }
-                Err(_) => {
-                   "Unknown".to_string()
-                },
-               }
-            },
-        };
+                Ok(x) => String::from_utf8(x.stdout).unwrap(),
+                Err(_) => "Unknown".to_string(),
+            }
+        }
+    };
     // Remove any new line character
     hostname.replace('\n', "")
 }
