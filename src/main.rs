@@ -94,17 +94,11 @@ fn main() {
     }
 
     let top_color = args.top_color.unwrap_or("red".into()).parse().unwrap_or(Color::Red);
-    ascii_vec[0] = ascii_vec[0].color(top_color).to_string();
-    ascii_vec[1] = ascii_vec[1].color(top_color).to_string();
-    ascii_vec[2] = ascii_vec[2].color(top_color).to_string();
-    ascii_vec[3] = ascii_vec[3].color(top_color).to_string();
-    ascii_vec[4] = ascii_vec[4].color(top_color).to_string();
-    ascii_vec[5] = ascii_vec[5].color(top_color).to_string();
-
     let bottom_color = args.bottom_color.unwrap_or("blue".into()).parse().unwrap_or(Color::Blue);
-    ascii_vec[6] = ascii_vec[6].color(bottom_color).to_string();
-    ascii_vec[7] = ascii_vec[7].color(bottom_color).to_string();
-    ascii_vec[8] = ascii_vec[8].color(bottom_color).to_string();
+    for i in 0..9 {
+        let color = if i < 6 { top_color } else { bottom_color };
+        ascii_vec[i] = ascii_vec[i].color(color).to_string();
+    }
 
     let mut box_side = "│".to_string();
     let mut box_top = "─".to_string().repeat(final_length);
