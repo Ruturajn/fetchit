@@ -60,7 +60,7 @@ $ makepkg -si
 Head over to [Releases](https://github.com/Ruturajn/fetchit/releases) to grab a binary for `fetchit`. Once downloaded,
 ```
 # Navigate to the directory where you have downloaded the tar file.
-$ tar -xvf fetchit-0.1.0-x86_64.tar.gz
+$ tar -xvf fetchit-0.1.1-x86_64.tar.gz
 
 # Copy the executable to ~/.local/bin/, and if this directory doesn't exist create it
 $ if [[ ! -d ~/.local/bin ]] ; then mkdir -p ~/.local/bin/ ; fi
