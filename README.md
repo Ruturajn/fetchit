@@ -45,7 +45,7 @@ $ paru -S fetchit-git
 
 Or alternatively,
 ```
-# Clone the AUR Package
+# Clone the AUR Package.
 $ git clone https://aur.archlinux.org/fetchit-git.git
 
 # Change directory into the repo.
@@ -62,7 +62,7 @@ Head over to [Releases](https://github.com/Ruturajn/fetchit/releases) to grab a 
 # Navigate to the directory where you have downloaded the tar file.
 $ tar -xvf fetchit-0.1.1-x86_64.tar.gz
 
-# Copy the executable to ~/.local/bin/, and if this directory doesn't exist create it
+# Copy the executable to `~/.local/bin/`, and if this directory doesn't exist create it.
 $ if [[ ! -d ~/.local/bin ]] ; then mkdir -p ~/.local/bin/ ; fi
 $ cp ./fetchit ~/.local/bin/
 ```
@@ -70,7 +70,7 @@ Finally, make sure, you add `~/.local/bin/` to `PATH`, if you haven't already.
 
 ### Building from Source
 ```
-# First of all install Rust, see "https://www.rust-lang.org/tools/install"
+# First of all install Rust, see "https://www.rust-lang.org/tools/install".
 $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # Clone the git repo.
@@ -82,10 +82,10 @@ $ cd ./fetchit
 # Build the package.
 $ cargo build --release
 
-# Create ~/.cargo/bin/ if it does not exist
+# Create ~/.cargo/bin/ if it does not exist.
 $ if [[ ! -d ~/.cargo/bin ]] ; then mkdir -p ~/.cargo/bin/ ; fi
 
-# Copy the executable to ~/.cargo/bin/
+# Copy the executable to `~/.cargo/bin/`.
 $ cp ./target/release/fetchit ~/.cargo/bin/
 ```
 
@@ -97,7 +97,7 @@ $ cp ./target/release/fetchit ~/.cargo/bin/
 
 ## Usage
 ```
-fetchit 0.1.0
+fetchit 0.1.1
 Ruturajn <nanotiruturaj@gmail.com>
 A System fetch tool for Linux written in Rust
 
