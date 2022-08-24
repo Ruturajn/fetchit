@@ -1,6 +1,6 @@
 # Changelog:
 
-### 24th August, 2022
+### `v0.1.1` - 24th August, 2022
 - Fixed Unknown OS issue, the file `/etc/os-release` not being read.
 - Added support for some more WMs by checking `_NET_WM_NAME`, if the `XDG` environment variables are not set.
 - Refactored `match` and `if - else` statements for color argument handling &#8594; [#5](https://github.com/Ruturajn/fetchit/pull/5).
