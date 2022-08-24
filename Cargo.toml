@@ -1,6 +1,6 @@
 [package]
 name = "fetchit"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors=["Ruturajn <nanotiruturaj@gmail.com>"]
 description="A System fetch tool for Linux written in Rust"
