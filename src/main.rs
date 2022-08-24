@@ -65,7 +65,7 @@ fn main() {
     |______________|       
     \\   =========   \\      
      \\ ==== ____ === \\     
-      \\_____\\___\\_____\\  "
+      \\_____\\___\\_____\\    "
         .to_string();
 
     // Check for custom file, if given.
@@ -207,7 +207,7 @@ fn main() {
         box_side
     );
     println!(
-        "{}   {}{}{}",
+        "{} {}{}{}",
         ascii_vec[8], box_bottom_left_corner, box_top, box_bottom_right_corner
     );
     println!();
