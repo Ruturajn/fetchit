@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://user-images.githubusercontent.com/56625259/185757248-cb60e3e8-9486-41dc-9e99-f0f24a208e71.png" width="457" height="259">
+<img src="https://user-images.githubusercontent.com/56625259/186507604-2d4a4fd9-6471-4469-a3f4-ce4bf5aebc4a.png" width="457" height="259">
 
 # fetchit
 
@@ -20,9 +20,11 @@ in height. If this condition is not met (especially, the height, i.e. the number
 
 <div align="center">
 
-<img src="https://user-images.githubusercontent.com/56625259/185761191-26002c20-b4a4-43cd-929d-a55dcacff9c3.png" width="376" height="170"> &nbsp; <img src="https://user-images.githubusercontent.com/56625259/185761191-26002c20-b4a4-43cd-929d-a55dcacff9c3.png" width="376" height="170">
+<img src="https://user-images.githubusercontent.com/56625259/186508160-746a2cc7-af3f-4d91-84d3-de3262480198.png" width="323" height="163"> &nbsp; <img src="https://user-images.githubusercontent.com/56625259/186508179-18fb1940-27ad-42d2-9d4c-0a72d887f2ef.png" width="323" height="163">
 
-<img src="https://user-images.githubusercontent.com/56625259/185761450-3251ad79-ce36-4441-bb96-52781ab06828.png" width="464" height="204">
+<br>
+
+<img src="https://user-images.githubusercontent.com/56625259/186509037-3fc1f415-cf1f-4563-97c0-2c05443ecd79.png" width="376" height="170"> &nbsp; <img src="https://user-images.githubusercontent.com/56625259/186509080-72c261b8-3f17-4825-b547-16af09fe6602.png" width="376" height="170">
 
 <br>
 
@@ -35,17 +37,22 @@ in height. If this condition is not met (especially, the height, i.e. the number
 You can install `fetchit` using any of the following methods,
 
 ### Arch Linux
-`fetchit` is available in the AUR. If you have an AUR helper (for example [paru](https://github.com/Morganamilo/paru))
+`fetchit` is available in the AUR. If you have an AUR helper (for example [paru](https://github.com/Morganamilo/paru)),
 
-```sh
-paru -S fetchit-git
+```
+$ paru -S fetchit-git
 ```
 
-Or alternatively:
-```sh
-git clone https://aur.archlinux.org/fetchit-git.git
-cd fetchit-git
-makepkg -si
+Or alternatively,
+```
+# Clone the AUR Package
+$ git clone https://aur.archlinux.org/fetchit-git.git
+
+# Change directory into the repo.
+$ cd fetchit-git
+
+# Install it, using `makepkg`.
+$ makepkg -si
 ```
 
 ### Install from Releases
