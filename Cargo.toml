@@ -5,6 +5,14 @@ edition = "2021"
 authors=["Ruturajn <nanotiruturaj@gmail.com>"]
 description="A System fetch tool for Linux written in Rust"
 
+# Optimization paramaters, for reducing the binary size.
+# Taken from "https://github.com/johnthagen/min-sized-rust"
+[profile.release]
+strip = true
+# opt-level = "z"  # Optimize for size.
+lto = true
+panic = "abort"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
