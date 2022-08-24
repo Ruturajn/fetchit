@@ -65,7 +65,7 @@ pub fn get_kernel_version() -> String {
 
             rev_kernel_ver
         }
-        Err(_) => "Unknown".to_string(), // If the commnd fails assingn
+        Err(_) => "Unknown".to_string(), // If the command fails assign
                                          // kernel_ver to "Unknown".
     };
 
@@ -118,7 +118,7 @@ pub fn get_session_name() -> String {
                     .args(["-root", "-notype", "_NET_SUPPORTING_WM_CHECK"])
                     .output();
 
-                // If the above commnd ran successfully, assign its output to `xprop_id`.
+                // If the above command ran successfully, assign its output to `xprop_id`.
                 let xprop_id = match xprop_id {
                     Ok(x) => String::from_utf8(x.stdout).unwrap(),
                     Err(_) => "Unknown".to_string(),
@@ -181,13 +181,30 @@ pub fn get_sys_uptime() -> String {
                 .replace("day", "d")
                 .replace("up ", "")
         }
-        Err(_) => "Unknown".to_string(), // If the commnd fails, assingn
+        Err(_) => "Unknown".to_string(), // If the command fails, assign
                                          // up_time to "Unknown".
     };
 
     // Remove any newline character.
 
     up_time.replace('\n', "")
+}
+
+pub fn get_hostname() -> String {
+    // Get the hostname using the 'hostname' command
+    let hostname = Command::new("hostname").output();
+    let hostname = match hostname {
+        Ok(x) => String::from_utf8(x.stdout).unwrap(),
+        Err(_) => {
+            let hostname = Command::new("uname").arg("-n").output();
+            match hostname {
+                Ok(x) => String::from_utf8(x.stdout).unwrap(),
+                Err(_) => "Unknown".to_string(),
+            }
+        }
+    };
+    // Remove any new line character
+    hostname.replace('\n', "")
 }
 
 // Add some tests, for testing the `get_session_name()` function.
@@ -226,7 +243,7 @@ mod tests {
 
         // Set `XDG_SESSION_DESKTOP`
         let env_var = "XDG_CURRENT_DESKTOP";
-        env::set_var(env_var, "Qtile".to_string());
+        env::set_var(env_var, "Qtile");
 
         let wm_name = get_session_name();
         assert_eq!(wm_name, "Qtile");
@@ -246,7 +263,7 @@ mod tests {
 
         // Set `XDG_SESSION_DESKTOP`
         let env_var = "XDG_SESSION_DESKTOP";
-        env::set_var(env_var, "Testing".to_string());
+        env::set_var(env_var, "Testing");
 
         let wm_name = get_session_name();
         assert_eq!(wm_name, "Testing");
