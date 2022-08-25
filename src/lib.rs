@@ -213,21 +213,21 @@ mod tests {
     use super::*;
     use std::env;
 
-    #[test]
-    fn fallback_session() {
-        // Remove all the checked Environment variables.
-        let env_var_1 = "DESKTOP_SESSION";
-        env::remove_var(env_var_1);
+    // #[test]
+    // fn fallback_session() {
+    //     // Remove all the checked Environment variables.
+    //     let env_var_1 = "DESKTOP_SESSION";
+    //     env::remove_var(env_var_1);
 
-        let env_var_2 = "XDG_CURRENT_DESKTOP";
-        env::remove_var(env_var_2);
+    //     let env_var_2 = "XDG_CURRENT_DESKTOP";
+    //     env::remove_var(env_var_2);
 
-        let env_var_3 = "XDG_SESSION_DESKTOP";
-        env::remove_var(env_var_3);
+    //     let env_var_3 = "XDG_SESSION_DESKTOP";
+    //     env::remove_var(env_var_3);
 
-        let wm_name = get_session_name();
-        assert_eq!(wm_name, "LG3D");
-    }
+    //     let wm_name = get_session_name();
+    //     assert_eq!(wm_name, "LG3D");
+    // }
 
     #[test]
     fn xdg_current() {
