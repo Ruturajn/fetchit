@@ -2,10 +2,10 @@
 // @Date  : 18th August, 2022
 // @Brief : This is a system fetch tool for Linux written in Rust.
 
-use std::fs;
-use colored::Colorize;
-use colored::Color;
 use clap::Parser;
+use colored::Color;
+use colored::Colorize;
+use std::fs;
 
 // Bring the functions from `lib.rs`, and
 // `packages.rs` into scope.
@@ -95,11 +95,19 @@ fn main() {
         ascii_vec.push(line.to_string());
     }
 
-    let top_color = args.top_color.unwrap_or_else(|| "red".into()).parse().unwrap_or(Color::Red);
-    let bottom_color = args.bottom_color.unwrap_or_else(|| "blue".into()).parse().unwrap_or(Color::Blue);
-    for i in 0..9 {
+    let top_color = args
+        .top_color
+        .unwrap_or_else(|| "red".into())
+        .parse()
+        .unwrap_or(Color::Red);
+    let bottom_color = args
+        .bottom_color
+        .unwrap_or_else(|| "blue".into())
+        .parse()
+        .unwrap_or(Color::Blue);
+    for (i, item) in ascii_vec.iter_mut().enumerate().take(9) {
         let color = if i < 6 { top_color } else { bottom_color };
-        ascii_vec[i] = ascii_vec[i].color(color).to_string();
+        *item = item.color(color).to_string();
     }
 
     let mut box_side = "│".to_string();
@@ -109,14 +117,17 @@ fn main() {
     let mut box_bottom_left_corner = "╰".to_string();
     let mut box_bottom_right_corner = "╯".to_string();
 
-    let outer_box_color = args.outer_box_color.unwrap_or_else(|| "blue".into()).parse().unwrap_or(Color::Blue);
-    box_side                = box_side.color(outer_box_color).to_string();
-    box_top                 = box_top.color(outer_box_color).to_string();
-    box_top_left_corner     = box_top_left_corner.color(outer_box_color).to_string();
-    box_top_right_corner    = box_top_right_corner.color(outer_box_color).to_string();
-    box_bottom_left_corner  = box_bottom_left_corner.color(outer_box_color).to_string();
+    let outer_box_color = args
+        .outer_box_color
+        .unwrap_or_else(|| "blue".into())
+        .parse()
+        .unwrap_or(Color::Blue);
+    box_side = box_side.color(outer_box_color).to_string();
+    box_top = box_top.color(outer_box_color).to_string();
+    box_top_left_corner = box_top_left_corner.color(outer_box_color).to_string();
+    box_top_right_corner = box_top_right_corner.color(outer_box_color).to_string();
+    box_bottom_left_corner = box_bottom_left_corner.color(outer_box_color).to_string();
     box_bottom_right_corner = box_bottom_right_corner.color(outer_box_color).to_string();
-
 
     // The number `14` defines the total characters, upto the output
     // for each system info value. For example,
