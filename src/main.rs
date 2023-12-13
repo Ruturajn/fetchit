@@ -6,6 +6,8 @@ use clap::Parser;
 use colored::Color;
 use colored::Colorize;
 use std::fs;
+use std::thread;
+use std::sync::mpsc;
 
 // Bring the functions from `lib.rs`, and
 // `packages.rs` into scope.
@@ -15,22 +17,68 @@ pub mod packages;
 fn main() {
     let args = FetchitArgs::parse();
 
-    let os_name = match fetchit::get_os_name() {
-        Ok(x) => x,
-        Err(_) => String::from("Unknown"),
-    };
+    let (tx0, rx0) = mpsc::channel();
+    let (tx1, rx1) = mpsc::channel();
+    let (tx2, rx2) = mpsc::channel();
+    let (tx3, rx3) = mpsc::channel();
+    let (tx4, rx4) = mpsc::channel();
+    let (tx5, rx5) = mpsc::channel();
+    let (tx6, rx6) = mpsc::channel();
 
-    let kernel = fetchit::get_kernel_version();
+    let os_name_th = thread::spawn(move || {
+        let os_name = match fetchit::get_os_name() {
+            Ok(x) => x,
+            Err(_) => String::from("Unknown"),
+        };
+        tx0.send(os_name).unwrap();
+    });
 
-    let shell_name = fetchit::get_shell_name();
+    let kernel_th = thread::spawn(move || {
+        let kernel = fetchit::get_kernel_version();
+        tx1.send(kernel).unwrap();
+    });
 
-    let session = fetchit::get_session_name();
+    let shell_name_th = thread::spawn(move || {
+        let shell_name = fetchit::get_shell_name();
+        tx2.send(shell_name).unwrap();
+    });
 
-    let uptime = fetchit::get_sys_uptime();
+    let session_th = thread::spawn(move || {
+        let session = fetchit::get_session_name();
+        tx3.send(session).unwrap();
+    });
 
-    let total_packages = packages::get_num_packages().to_string();
+    let uptime_th = thread::spawn(move || {
+        let uptime = fetchit::get_sys_uptime();
+        tx4.send(uptime).unwrap();
+    });
 
-    let hostname = fetchit::get_hostname();
+    let total_packages_th = thread::spawn(move || {
+        let total_packages = packages::get_num_packages().to_string();
+        tx5.send(total_packages).unwrap();
+    });
+
+    let hostname_th = thread::spawn(move || {
+        let hostname = fetchit::get_hostname();
+        tx6.send(hostname).unwrap();
+    });
+
+    os_name_th.join().unwrap();
+    kernel_th.join().unwrap();
+    shell_name_th.join().unwrap();
+    session_th.join().unwrap();
+    uptime_th.join().unwrap();
+    total_packages_th.join().unwrap();
+    hostname_th.join().unwrap();
+
+    let os_name = rx0.recv().unwrap();
+    let kernel = rx1.recv().unwrap();
+    let shell_name = rx2.recv().unwrap();
+    let session = rx3.recv().unwrap();
+    let uptime = rx4.recv().unwrap();
+    let total_packages = rx5.recv().unwrap();
+    let hostname = rx6.recv().unwrap();
+
     // Create a vector to store the lengths of all the strings
     let string_length_vector = vec![
         os_name.len(),
