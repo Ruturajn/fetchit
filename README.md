@@ -14,7 +14,7 @@ screenshots below,
 - The path to a custom ascii text file can be passed to `fetchit` using the `-f` option.
 
 For a custom ascii text file, it is recommended that the ascii art should be contained in a box of `10x28`, i.e. `28` ***spaces*** wide, and `10` ***lines***
-in height. If this condition is not met (especially, the height, i.e. the number of lines) then `fetchit` will fall back to the default ascii asrt. See [Usage](https://github.com/Ruturajn/fetchit#usage) for more details.
+in height. If this condition is not met (especially, the height, which should be greater than or equal to `9`, i.e. the number of lines) then `fetchit` will fall back to the default ascii asrt. See [`Usage`](https://github.com/Ruturajn/fetchit#usage) for more details.
 
 ## Examples
 
